@@ -1,6 +1,6 @@
 # MusicSearch
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.7.'  The application is organized 
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.7.'
 
 ## Dependencies
 
