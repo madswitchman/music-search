@@ -1,0 +1,89 @@
+.example-container .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.example-container {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+.error {
+  color: red;
+}
+
+.mat-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-card-header {
+  flex-shrink: 0;
+}
+
+.mat-card-content {
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.mat-icon-button {
+  padding-top: 8px;
+}
+
+.mat-icon-button .mat-icon {
+  font-size: 35px;
+}
+
+.mat-raised-button {
+  font-size: 14px;
+  height: 42px;
+  margin: 10px;
+  margin-left: 450px;
+}
+
+.search-text {
+  width: 320px;
+}
+
+.artist-card {
+  margin-bottom: 15px;
+  max-width: 400px;
+}
+
+.artist-card:hover {
+  cursor: pointer;
+  // background-color: lightgray;
+}
+
+.img {
+  width: 100%;
+  margin-bottom: 18%;
+}
+.card-picture {
+  width: 23%;
+  margin-bottom: 2%;
+}
+a:link,
+a:visited {
+  color: blue;
+}
+
+.hidden-element {
+  transition: visibility 5s;
+}
+
+#errorMsg {
+  margin-left: 300px;
+}
+
+#fade-in {
+  animation: fadein 3s;
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

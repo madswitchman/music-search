@@ -1,0 +1,112 @@
+<div class="example-container">
+  <form class="my-form" #loginForm="ngForm" (ngSubmit)="onSubmit()">
+    <mat-form-field
+      class="search-text"
+      hintLabel="Max 40 characters"
+      appearance="fill"
+    >
+      <mat-label>Search Text</mat-label>
+      <input
+        matInput
+        [formControl]="inputField"
+        type="text"
+        id="searchText"
+        required
+      />
+      <mat-error *ngIf="inputField.invalid">{{ getErrorMessage() }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Choose</mat-label>
+      <mat-select [formControl]="chooseParams" required>
+        <mat-option value="artist">Artist</mat-option>
+        <mat-option value="song">Song Title</mat-option>
+      </mat-select>
+      <mat-hint align="end"></mat-hint>
+      <mat-error *ngIf="chooseParams.invalid"
+        >Please select Artist or Song Title</mat-error
+      >
+    </mat-form-field>
+    <br />
+    <button
+      mat-raised-button
+      color="primary"
+      align="end"
+      type="submit"
+      [disabled]="inputField.invalid || chooseParams.invalid"
+    >
+      Search
+    </button>
+    <div *ngIf="inputField.errors?.maxlength" class="error">
+      Name can be max 40 characters long.
+    </div>
+  </form>
+</div>
+<div
+  fxLayout.xs="column"
+  fxLayout="row wrap"
+  fxLayoutGap="15px"
+  ngClass.gt-xs="ml-10"
+  *ngIf="loginForm.submitted"
+>
+  <div
+    [hidden]="
+      searchResults.length != 0 && loginForm.submitted && loginForm.valid
+    "
+    class="example-container"
+    id="fade-in"
+  >
+    <strong>No Results</strong>
+  </div>
+  <mat-card
+    fxFlex.sm="0 1 calc(50%-10px)"
+    fxFlex.md="0 1 calc(33%-10px)"
+    fxFlex.gt-md="0 1 calc(25%-10px)"
+    *ngFor="let searchResult of searchResults"
+    class="artist-card example-ripple-container"
+  >
+    <mat-card-header>
+      <mat-card-title>{{
+        this.searchService.trimString(
+          searchResult.name || searchResult.artist.name
+        )
+      }}</mat-card-title>
+      <mat-card-subtitle>{{ searchResult.title }} </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <img src="{{ searchResult.picture || searchResult.album.cover }}" />
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        *ngIf="this.chooseParams.value === 'artist'"
+        mat-icon-button
+        color="primary"
+        onclick="this.blur()"
+        (click)="openDialogArtist(searchResult.name, 'artist')"
+        disableRipple
+      >
+        <mat-icon>info</mat-icon>
+      </button>
+      <button
+        *ngIf="this.chooseParams.value === 'song'"
+        mat-icon-button
+        color="primary"
+        onclick="this.blur()"
+        (click)="
+          openDialogSong(searchResult.title, searchResult.artist.name, 'song')
+        "
+        disableRipple
+      >
+        <mat-icon>info</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="primary"
+        disableRipple
+        (click)="openURL(searchResult.link)"
+      >
+        <mat-icon>speaker</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

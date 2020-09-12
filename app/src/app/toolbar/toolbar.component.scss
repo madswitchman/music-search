@@ -1,0 +1,41 @@
+.spacer {
+  flex: 1;
+}
+
+.mat-toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  background-color: #1976d2;
+  color: white;
+  font-weight: 600;
+}
+
+.mat-toolbar img {
+  margin: 0 16px;
+}
+
+.mat-toolbar #github-icon {
+  height: 40px;
+  margin: 0 16px;
+}
+.mat-toolbar #music-logo {
+  height: 30px;
+  margin: 0 16px;
+  font-size: 30px;
+}
+
+.mat-toolbar #github-icon:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+#github-icon {
+  content: url("https://api.iconify.design/mdi-github.svg?color=white&height=24");
+  height: 40px;
+  margin: 0 16px;
+}
