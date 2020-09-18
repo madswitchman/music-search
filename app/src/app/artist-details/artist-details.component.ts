@@ -18,6 +18,7 @@ interface ArtistDetails {
 export class ArtistDetailsComponent implements OnInit {
   inputField: string;
   artistResults = [];
+  loading: boolean;
 
   constructor(
     public searchService: SearchService,
@@ -31,18 +32,22 @@ export class ArtistDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data.searchParams === 'artist') {
+      this.loading = true;
       this.searchService
         .fetchArtistDetails(this.data.artist)
         .subscribe((artistData: ArtistDetails) => {
+          this.loading = false;
           this.artistResults = artistData.artists;
           console.log(artistData);
         });
     }
     if (this.data.searchParams === 'song') {
       console.log(this.data.artistName);
+      this.loading = true;
       this.searchService
         .fetchSongDetails(this.data.artistName, this.data.songTitle)
         .subscribe((artistData: ArtistDetails) => {
+          this.loading = false;
           this.artistResults = artistData.artists;
           console.log(artistData);
         });

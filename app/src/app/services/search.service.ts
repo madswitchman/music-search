@@ -8,6 +8,20 @@ import {
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { throwError } from 'rxjs';
 
+interface Artist {
+  idArtist: number;
+  strArtist: string;
+  strGenre: string;
+  strStyle: string;
+  intFormedYear: number;
+  strCountry: string;
+}
+export interface Song {
+  artistName: string;
+  albumCover: string;
+  songTitle: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })

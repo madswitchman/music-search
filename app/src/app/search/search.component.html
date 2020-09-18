@@ -41,6 +41,13 @@
       Name can be max 40 characters long.
     </div>
   </form>
+  <mat-progress-spinner
+    *ngIf="this.loading == true"
+    mode="indeterminate"
+    diameter="80"
+    strokeWidth="10"
+    class="example-container"
+  ></mat-progress-spinner>
 </div>
 <div
   fxLayout.xs="column"

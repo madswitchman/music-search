@@ -2,49 +2,58 @@
 Indexes are set in case API returns multiple records for single artist
 First artist is most complete so bind to first occurence in array (artistResults)
 -->
+<mat-progress-spinner
+  *ngIf="this.loading == true"
+  mode="indeterminate"
+  diameter="80"
+  strokeWidth="10"
+></mat-progress-spinner>
 
-<h2>{{ data.artist || data.songTitle }}</h2>
-<!--Convert to strArtist once loading bar is completed-->
-<ul *ngFor="let artistResult of artistResults; let i = index">
-  <li
-    *ngIf="
-      artistResult.strGenre != null && artistResult.strGenre !== '' && i == 0
-    "
-  >
-    <strong>Genre:</strong> {{ artistResult.strGenre }}
-  </li>
-  <li
-    *ngIf="
-      artistResult.strStyle !== null && artistResult.strStyle !== '' && i == 0
-    "
-  >
-    <strong>Style:</strong> {{ artistResult.strStyle }}
-  </li>
-  <li
-    *ngIf="
-      artistResult.intFormedYear != null &&
-      artistResult.intFormedYear !== '' &&
-      artistResult.intFormedYear != 0 &&
-      i == 0
-    "
-  >
-    <strong>Year Formed:</strong> {{ artistResult.intFormedYear }}
-  </li>
-  <li
-    *ngIf="
-      artistResult.strCountry != null &&
-      artistResult.strCountry !== '' &&
-      i == 0
-    "
-  >
-    <strong>From:</strong> {{ artistResult.strCountry }}
-  </li>
-</ul>
-<ul>
-  <li *ngIf="artistResults === null || artistResults?.length === 0">
-    Nothing additional about the Artist could be found
-  </li>
-</ul>
-<button mat-raised-button color="warn" align="end" (click)="onCloseClick()">
-  Close
-</button>
+<div *ngIf="this.loading == false">
+  <h2>{{ data.artist || data.songTitle }}</h2>
+  <!--Convert to strArtist once loading bar is completed-->
+
+  <ul *ngFor="let artistResult of artistResults; let i = index">
+    <li
+      *ngIf="
+        artistResult.strGenre != null && artistResult.strGenre !== '' && i == 0
+      "
+    >
+      <strong>Genre:</strong> {{ artistResult.strGenre }}
+    </li>
+    <li
+      *ngIf="
+        artistResult.strStyle !== null && artistResult.strStyle !== '' && i == 0
+      "
+    >
+      <strong>Style:</strong> {{ artistResult.strStyle }}
+    </li>
+    <li
+      *ngIf="
+        artistResult.intFormedYear != null &&
+        artistResult.intFormedYear !== '' &&
+        artistResult.intFormedYear != 0 &&
+        i == 0
+      "
+    >
+      <strong>Year Formed:</strong> {{ artistResult.intFormedYear }}
+    </li>
+    <li
+      *ngIf="
+        artistResult.strCountry != null &&
+        artistResult.strCountry !== '' &&
+        i == 0
+      "
+    >
+      <strong>From:</strong> {{ artistResult.strCountry }}
+    </li>
+  </ul>
+  <ul>
+    <li *ngIf="artistResults === null || artistResults?.length === 0">
+      Nothing additional about the Artist could be found
+    </li>
+  </ul>
+  <button mat-raised-button color="warn" align="end" (click)="onCloseClick()">
+    Close
+  </button>
+</div>

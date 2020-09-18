@@ -20,6 +20,7 @@ export class SearchComponent implements OnInit {
   loginForm: FormGroup;
   formSubmitted = false;
   panelOpenState = false;
+  loading: boolean;
 
   inputField: FormControl = new FormControl('', [
     Validators.required,
@@ -66,6 +67,8 @@ export class SearchComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading = true;
+
     if (
       this.chooseParams.value === 'song' &&
       this.inputField.valid &&
@@ -78,6 +81,7 @@ export class SearchComponent implements OnInit {
         )
         .subscribe((data: SearchDetails) => {
           console.log(data);
+          this.loading = false;
           this.searchResults = data.data;
           this.formSubmitted = true;
         });
@@ -94,6 +98,7 @@ export class SearchComponent implements OnInit {
         )
         .subscribe((data: SearchDetails) => {
           console.log(data);
+          this.loading = false;
           this.searchResults = data.data;
           this.formSubmitted = true;
         });
