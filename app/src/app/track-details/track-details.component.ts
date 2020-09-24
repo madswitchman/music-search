@@ -3,18 +3,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SearchService } from './../services/search.service';
 
 @Component({
-  selector: 'app-artist-details',
-  templateUrl: './artist-details.component.html',
-  styleUrls: ['./artist-details.component.scss'],
+  selector: 'app-track-details',
+  templateUrl: './track-details.component.html',
+  styleUrls: ['./track-details.component.scss'],
 })
-export class ArtistDetailsComponent implements OnInit {
+export class TrackDetailsComponent implements OnInit {
   inputField: string;
   artistResults = [];
   loading: boolean;
 
   constructor(
     public searchService: SearchService,
-    public dialogRef: MatDialogRef<ArtistDetailsComponent>,
+    public dialogRef: MatDialogRef<TrackDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 

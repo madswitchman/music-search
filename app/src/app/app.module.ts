@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SearchComponent } from './search/search.component';
 import { ArtistDetailsComponent } from './artist-details/artist-details.component';
+import { TrackDetailsComponent } from './track-details/track-details.component';
 
 //Services
 import { SearchService } from './services/search.service';
@@ -29,6 +30,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatRippleModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ToolbarComponent,
     SearchComponent,
     ArtistDetailsComponent,
+    TrackDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +53,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     HttpClientModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatCardModule,
     MatGridListModule,
     FlexLayoutModule,

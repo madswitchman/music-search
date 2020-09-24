@@ -11,7 +11,7 @@ First artist is most complete so bind to first occurence in array (artistResults
 
 <div *ngIf="this.loading == false">
   <h2>{{ data.artist || data.songTitle }}</h2>
-  <!--TODO: Separate out Artists/Song into components-->
+  <!--TODO: Fix formatting specific to Track API-->
   <ul *ngFor="let artistResult of artistResults; let i = index">
     <li
       *ngIf="

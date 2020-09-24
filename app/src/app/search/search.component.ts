@@ -4,6 +4,7 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { SearchService } from './../services/search.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ArtistDetailsComponent } from '../artist-details/artist-details.component';
+import { TrackDetailsComponent } from './../track-details/track-details.component';
 
 interface SearchDetails {
   data: any[];
@@ -42,13 +43,17 @@ export class SearchComponent implements OnInit {
   }
 
   openDialogSong(songTitle, artistName, searchParams): void {
-    this.dialog.open(ArtistDetailsComponent, {
+    this.dialog.open(TrackDetailsComponent, {
       data: { songTitle, artistName, searchParams },
       autoFocus: false,
     });
     console.log(songTitle);
     console.log(artistName);
     console.log(searchParams);
+  }
+
+  onSearchChange(ob) {
+    console.log(ob.value);
   }
 
   getErrorMessage() {
@@ -64,6 +69,7 @@ export class SearchComponent implements OnInit {
   sanitizeString(str) {
     str = str.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
     return str.trim();
+    // return (str = encodeURI(str));
   }
 
   onSubmit() {

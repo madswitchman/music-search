@@ -18,7 +18,11 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Choose</mat-label>
-      <mat-select [formControl]="chooseParams" required>
+      <mat-select
+        [formControl]="chooseParams"
+        (selectionChange)="onSearchChange($event)"
+        required
+      >
         <mat-option value="artist">Artist</mat-option>
         <mat-option value="song">Song Title</mat-option>
       </mat-select>
@@ -37,17 +41,21 @@
     >
       Search
     </button>
+    <mat-progress-bar
+      mode="indeterminate"
+      *ngIf="this.loading == true"
+    ></mat-progress-bar>
     <div *ngIf="inputField.errors?.maxlength" class="error">
       Name can be max 40 characters long.
     </div>
   </form>
-  <mat-progress-spinner
+  <!-- <mat-progress-spinner
     *ngIf="this.loading == true"
     mode="indeterminate"
     diameter="80"
     strokeWidth="10"
     class="example-container"
-  ></mat-progress-spinner>
+  ></mat-progress-spinner> -->
 </div>
 <div
   fxLayout.xs="column"

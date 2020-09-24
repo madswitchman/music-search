@@ -72,7 +72,7 @@ app.get("/songDetails", (req, res) => {
 });
 
 app.get("/searchArtist", (req, res) => {
-  let searchText = req.query.q;
+  let searchText = encodeURI(req.query.q);
   let limit = "10";
 
   let artistSearchUrl =

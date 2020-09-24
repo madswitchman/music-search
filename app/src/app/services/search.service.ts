@@ -7,20 +7,7 @@ import {
 } from '@angular/common/http';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { throwError } from 'rxjs';
-
-interface Artist {
-  idArtist: number;
-  strArtist: string;
-  strGenre: string;
-  strStyle: string;
-  intFormedYear: number;
-  strCountry: string;
-}
-export interface Song {
-  artistName: string;
-  albumCover: string;
-  songTitle: string;
-}
+import { ArtistResponse } from './../models';
 
 @Injectable({
   providedIn: 'root',
@@ -54,7 +41,10 @@ export class SearchService {
   //   return str.match(RegExp(regex, 'g')).join(brk);
   // }
 
-  public fetchData(artist: string, chooseParams: string): Observable<any> {
+  public fetchData(
+    searchString: string,
+    chooseParams: string
+  ): Observable<any> {
     if (chooseParams === 'artist') {
       this.API_ENDPOINT = 'http://localhost:3000/searchArtist';
     }
@@ -62,19 +52,19 @@ export class SearchService {
       this.API_ENDPOINT = 'http://localhost:3000/searchSong';
     }
     const opts = {
-      params: new HttpParams({ fromString: 'q=' + artist }),
+      params: new HttpParams({ fromString: 'q=' + searchString }),
     };
     return this.httpClient
       .get(this.API_ENDPOINT, opts)
       .pipe(catchError(this.errorHandler));
   }
-  public fetchArtistDetails(artist: string): Observable<any> {
+  public fetchArtistDetails(artist: string): Observable<ArtistResponse> {
     this.API_ENDPOINT = 'http://localhost:3000/artistDetails';
     const opts = {
       params: new HttpParams({ fromString: 'q=' + artist }),
     };
     return this.httpClient
-      .get(this.API_ENDPOINT, opts)
+      .get<ArtistResponse>(this.API_ENDPOINT, opts)
       .pipe(catchError(this.errorHandler));
   }
   public fetchSongDetails(artist: string, songTitle: string): Observable<any> {
