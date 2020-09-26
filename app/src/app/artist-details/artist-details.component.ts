@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ArtistBioComponent } from './../artist-bio/artist-bio.component';
 import { SearchService } from './../services/search.service';
 
 @Component({
@@ -14,9 +16,23 @@ export class ArtistDetailsComponent implements OnInit {
 
   constructor(
     public searchService: SearchService,
+    public dialog: MatDialog,
     public dialogRef: MatDialogRef<ArtistDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
+
+  openDialogBio(strBio): void {
+    this.dialog.open(ArtistBioComponent, {
+      data: { strBio },
+      autoFocus: false,
+      maxHeight: '70vh',
+      maxWidth: '50vw',
+    });
+  }
+
+  toggleEllipsis() {
+    document.querySelector('#ellipsis-ex').classList.toggle('text-truncate');
+  }
 
   onCloseClick(): void {
     this.dialogRef.close();

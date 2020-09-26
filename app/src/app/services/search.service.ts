@@ -18,7 +18,7 @@ export class SearchService {
 
   //Trims artist length name for friendly rendering
   public trimString(stringToTrim: string) {
-    var length = 32;
+    var length = 20;
     var trimmedString =
       stringToTrim.length > length
         ? stringToTrim.substring(0, length - 3) + '...'

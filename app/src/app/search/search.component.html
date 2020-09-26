@@ -1,5 +1,5 @@
 <div class="example-container">
-  <form class="my-form" #loginForm="ngForm" (ngSubmit)="onSubmit()">
+  <form class="my-form" #searchForm="ngForm" (ngSubmit)="onSubmit()">
     <mat-form-field
       class="search-text"
       hintLabel="Max 40 characters"
@@ -60,13 +60,14 @@
 <div
   fxLayout.xs="column"
   fxLayout="row wrap"
+  fxLayoutAlign="center center"
   fxLayoutGap="15px"
   ngClass.gt-xs="ml-10"
-  *ngIf="loginForm.submitted"
+  *ngIf="searchForm.submitted"
 >
   <div
     [hidden]="
-      searchResults.length != 0 && loginForm.submitted && loginForm.valid
+      searchResults.length != 0 && searchForm.submitted && searchForm.valid
     "
     class="example-container"
     id="fade-in"
@@ -81,12 +82,18 @@
     class="artist-card example-ripple-container"
   >
     <mat-card-header>
-      <mat-card-title>{{
-        this.searchService.trimString(
-          searchResult.name || searchResult.artist.name
-        )
-      }}</mat-card-title>
-      <mat-card-subtitle>{{ searchResult.title }} </mat-card-subtitle>
+      <mat-card-title
+        ><span title="{{ searchResult.name || searchResult.artist.name }}">{{
+          this.searchService.trimString(
+            searchResult.name || searchResult.artist.name
+          )
+        }}</span></mat-card-title
+      >
+      <mat-card-subtitle *ngIf="!this.searchResult.name"
+        ><span title="{{ searchResult.title }}"
+          >{{ this.searchService.trimString(searchResult.title) }}
+        </span></mat-card-subtitle
+      >
     </mat-card-header>
     <mat-card-content>
       <img src="{{ searchResult.picture || searchResult.album.cover }}" />
@@ -108,9 +115,15 @@
         color="primary"
         onclick="this.blur()"
         (click)="
-          openDialogSong(searchResult.title, searchResult.artist.name, 'song')
+          openDialogSong(
+            searchResult.title,
+            searchResult.artist.name,
+            'song',
+            searchResult.preview
+          )
         "
         disableRipple
+        matTooltip="More Info"
       >
         <mat-icon>info</mat-icon>
       </button>
@@ -118,6 +131,7 @@
         mat-icon-button
         color="primary"
         disableRipple
+        matTooltip="Deezer Webpage"
         (click)="openURL(searchResult.link)"
       >
         <mat-icon>speaker</mat-icon>

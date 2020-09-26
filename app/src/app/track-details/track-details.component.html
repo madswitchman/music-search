@@ -1,5 +1,5 @@
 <!--Validation is done via ngIf
-Indexes are set in case API returns multiple records for single artist
+Indexes are set in case API returns multiple records for same artist
 First artist is most complete so bind to first occurence in array (artistResults)
 -->
 <mat-progress-spinner
@@ -10,9 +10,27 @@ First artist is most complete so bind to first occurence in array (artistResults
 ></mat-progress-spinner>
 
 <div *ngIf="this.loading == false">
-  <h2>{{ data.artist || data.songTitle }}</h2>
+  <h2>{{ data.songTitle }}</h2>
   <!--TODO: Fix formatting specific to Track API-->
   <ul *ngFor="let artistResult of artistResults; let i = index">
+    <li
+      *ngIf="
+        artistResult.strArtist != null &&
+        artistResult.strArtist !== '' &&
+        i == 0
+      "
+    >
+      <strong>Artist:</strong> {{ artistResult.strArtist }}
+    </li>
+
+    <li
+      *ngIf="
+        artistResult.strAlbum != null && artistResult.strAlbum !== '' && i == 0
+      "
+    >
+      <strong>Album:</strong> {{ artistResult.strAlbum }}
+    </li>
+
     <li
       *ngIf="
         artistResult.strGenre != null && artistResult.strGenre !== '' && i == 0
@@ -62,6 +80,19 @@ First artist is most complete so bind to first occurence in array (artistResults
       No additional information to display
     </li>
   </ul>
+  <ngx-audio-player
+    [playlist]="msaapPlaylist"
+    [displayTitle]="false"
+    [displayVolumeControls]="true"
+    [autoPlay]="false"
+    muted="muted"
+    [displayPlaylist]="msaapDisplayPlayList"
+    [pageSizeOptions]="msaapPageSizeOptions"
+    [displayVolumeControls]="msaapDisplayVolumeControls"
+    [disablePositionSlider]="msaapDisablePositionSlider"
+    [expanded]="false"
+  ></ngx-audio-player>
+  <br />
   <button mat-raised-button color="warn" align="end" (click)="onCloseClick()">
     Close
   </button>

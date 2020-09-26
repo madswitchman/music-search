@@ -18,9 +18,10 @@ interface SearchDetails {
 export class SearchComponent implements OnInit {
   radius: 300;
   color: 'lightgray';
-  loginForm: FormGroup;
+  searchForm: FormGroup;
   formSubmitted = false;
   panelOpenState = false;
+  hideMessage: boolean;
   loading: boolean;
 
   inputField: FormControl = new FormControl('', [
@@ -37,23 +38,30 @@ export class SearchComponent implements OnInit {
     this.dialog.open(ArtistDetailsComponent, {
       data: { artist, searchParams },
       autoFocus: false,
+      maxWidth: '50%',
     });
     console.log(artist);
     console.log(searchParams);
   }
 
-  openDialogSong(songTitle, artistName, searchParams): void {
+  openDialogSong(songTitle, artistName, searchParams, previewLink): void {
     this.dialog.open(TrackDetailsComponent, {
-      data: { songTitle, artistName, searchParams },
+      data: { songTitle, artistName, searchParams, previewLink },
       autoFocus: false,
+      maxWidth: '50%',
     });
     console.log(songTitle);
     console.log(artistName);
     console.log(searchParams);
+    console.log(previewLink);
   }
 
   onSearchChange(ob) {
-    console.log(ob.value);
+    //TODO: Hide 'No Results' message when mat select is changed
+    this.searchResults = [];
+    this.formSubmitted = false;
+    this.hideMessage = true;
+    console.log(this.hideMessage);
   }
 
   getErrorMessage() {

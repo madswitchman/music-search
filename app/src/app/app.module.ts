@@ -31,6 +31,9 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ArtistBioComponent } from './artist-bio/artist-bio.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxAudioPlayerModule } from 'ngx-audio-player';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     SearchComponent,
     ArtistDetailsComponent,
     TrackDetailsComponent,
+    ArtistBioComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +64,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatRippleModule,
     MatExpansionModule,
     MatDialogModule,
+    NgxAudioPlayerModule,
+    MatTooltipModule,
     RouterModule.forRoot([{ path: '**', component: SearchComponent }]),
   ],
   exports: [MatFormFieldModule, MatInputModule],

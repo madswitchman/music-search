@@ -10,7 +10,7 @@ First artist is most complete so bind to first occurence in array (artistResults
 ></mat-progress-spinner>
 
 <div *ngIf="this.loading == false">
-  <h2>{{ data.artist || data.songTitle }}</h2>
+  <h2>{{ data.artist }}</h2>
   <!--TODO: Separate out Artists/Song into components-->
   <ul *ngFor="let artistResult of artistResults; let i = index">
     <li
@@ -19,6 +19,13 @@ First artist is most complete so bind to first occurence in array (artistResults
       "
     >
       <strong>Genre:</strong> {{ artistResult.strGenre }}
+    </li>
+    <li
+      *ngIf="
+        artistResult.strLabel !== null && artistResult.strLabel !== '' && i == 0
+      "
+    >
+      <strong>Label:</strong> {{ artistResult.strLabel }}
     </li>
     <li
       *ngIf="
@@ -48,14 +55,26 @@ First artist is most complete so bind to first occurence in array (artistResults
     </li>
     <li
       *ngIf="
-        artistResult.strMusicVid != null &&
-        artistResult.strMusicVid !== '' &&
+        artistResult.strWebsite != null &&
+        artistResult.strWebsite !== '' &&
         i == 0
       "
     >
-      <strong>Music Video:</strong>
-      <a href="{{ artistResult.strMusicVid }}" target="_blank">&nbsp;YouTube</a>
+      <strong>Website:</strong>
+      <a href="http://{{ artistResult.strWebsite }}" target="_blank">
+        {{ artistResult.strWebsite }}
+      </a>
     </li>
+    <a
+      *ngIf="
+        artistResult.strBiographyEN != null &&
+        artistResult.strBiographyEN !== '' &&
+        i == 0
+      "
+      mat-raised-button
+      (click)="openDialogBio(artistResult.strBiographyEN)"
+      ><strong>Biography</strong></a
+    >
   </ul>
   <ul>
     <li *ngIf="artistResults === null || artistResults?.length === 0">
