@@ -1,0 +1,10 @@
+<!--Bio data is passed via artist-details component
+  and injected via openDialogBio()
+-->
+<div>
+  <h2>Biography</h2>
+  <p>{{ data.strBio }}</p>
+  <button mat-raised-button color="warn" align="end" (click)="onCloseClick()">
+    Close
+  </button>
+</div>
