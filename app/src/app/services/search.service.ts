@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { throwError } from 'rxjs';
-import { ArtistResponse } from './../models';
+import { ArtistResponse, TrackResponse } from './../models';
 
 @Injectable({
   providedIn: 'root',
@@ -67,13 +67,16 @@ export class SearchService {
       .get<ArtistResponse>(this.API_ENDPOINT, opts)
       .pipe(catchError(this.errorHandler));
   }
-  public fetchSongDetails(artist: string, songTitle: string): Observable<any> {
+  public fetchSongDetails(
+    artist: string,
+    songTitle: string
+  ): Observable<TrackResponse> {
     this.API_ENDPOINT = 'http://localhost:3000/songDetails';
     const opts = {
       params: new HttpParams({ fromString: 'q=' + artist + '&t=' + songTitle }),
     };
     return this.httpClient
-      .get(this.API_ENDPOINT, opts)
+      .get<TrackResponse>(this.API_ENDPOINT, opts)
       .pipe(catchError(this.errorHandler));
   }
   //Handle any HTTP errors - user sees dialog

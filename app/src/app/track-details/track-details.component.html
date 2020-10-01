@@ -1,6 +1,6 @@
 <!--Validation is done via ngIf
-Indexes are set in case API returns multiple records for same artist
-First artist is most complete so bind to first occurence in array (artistResults)
+Indexes are set in case API returns multiple records for same single track
+First artist is most complete so bind to first occurence in array (trackResults)
 -->
 <mat-progress-spinner
   *ngIf="this.loading == true"
@@ -12,85 +12,65 @@ First artist is most complete so bind to first occurence in array (artistResults
 <div *ngIf="this.loading == false">
   <h2>{{ data.songTitle }}</h2>
   <!--TODO: Fix formatting specific to Track API-->
-  <ul *ngFor="let artistResult of artistResults; let i = index">
+  <ul *ngFor="let trackResult of trackResults; let i = index">
     <li
       *ngIf="
-        artistResult.strArtist != null &&
-        artistResult.strArtist !== '' &&
-        i == 0
+        trackResult.strArtist != null && trackResult.strArtist !== '' && i == 0
       "
     >
-      <strong>Artist:</strong> {{ artistResult.strArtist }}
+      <strong>Artist:</strong> {{ trackResult.strArtist }}
     </li>
 
     <li
       *ngIf="
-        artistResult.strAlbum != null && artistResult.strAlbum !== '' && i == 0
+        trackResult.strAlbum != null && trackResult.strAlbum !== '' && i == 0
       "
     >
-      <strong>Album:</strong> {{ artistResult.strAlbum }}
+      <strong>Album:</strong> {{ trackResult.strAlbum }}
     </li>
 
     <li
       *ngIf="
-        artistResult.strGenre != null && artistResult.strGenre !== '' && i == 0
+        trackResult.strGenre != null && trackResult.strGenre !== '' && i == 0
       "
     >
-      <strong>Genre:</strong> {{ artistResult.strGenre }}
+      <strong>Genre:</strong> {{ trackResult.strGenre }}
     </li>
     <li
       *ngIf="
-        artistResult.strStyle !== null && artistResult.strStyle !== '' && i == 0
+        trackResult.strStyle !== null && trackResult.strStyle !== '' && i == 0
       "
     >
-      <strong>Style:</strong> {{ artistResult.strStyle }}
+      <strong>Style:</strong> {{ trackResult.strStyle }}
     </li>
     <li
       *ngIf="
-        artistResult.intFormedYear != null &&
-        artistResult.intFormedYear !== '' &&
-        artistResult.intFormedYear != 0 &&
-        i == 0
-      "
-    >
-      <strong>Year Formed:</strong> {{ artistResult.intFormedYear }}
-    </li>
-    <li
-      *ngIf="
-        artistResult.strCountry != null &&
-        artistResult.strCountry !== '' &&
-        i == 0
-      "
-    >
-      <strong>From:</strong> {{ artistResult.strCountry }}
-    </li>
-    <li
-      *ngIf="
-        artistResult.strMusicVid != null &&
-        artistResult.strMusicVid !== '' &&
+        trackResult.strMusicVid != null &&
+        trackResult.strMusicVid !== '' &&
         i == 0
       "
     >
       <strong>Music Video:</strong>
-      <a href="{{ artistResult.strMusicVid }}" target="_blank">&nbsp;YouTube</a>
+      <a href="{{ trackResult.strMusicVid }}" target="_blank">&nbsp;YouTube</a>
     </li>
   </ul>
   <ul>
-    <li *ngIf="artistResults === null || artistResults?.length === 0">
+    <li *ngIf="trackResults === null || trackResults?.length === 0">
       No additional information to display
     </li>
   </ul>
+  <!-- -->
   <ngx-audio-player
+    #audio_player
     [playlist]="msaapPlaylist"
-    [displayTitle]="false"
-    [displayVolumeControls]="true"
+    [displayTitle]="msaapDisplayTitle"
+    [displayVolumeControls]="msaapDisplayVolumeControls"
     [autoPlay]="false"
     muted="muted"
     [displayPlaylist]="msaapDisplayPlayList"
-    [pageSizeOptions]="msaapPageSizeOptions"
     [displayVolumeControls]="msaapDisplayVolumeControls"
     [disablePositionSlider]="msaapDisablePositionSlider"
-    [expanded]="false"
+    [expanded]="true"
   ></ngx-audio-player>
   <br />
   <button mat-raised-button color="warn" align="end" (click)="onCloseClick()">

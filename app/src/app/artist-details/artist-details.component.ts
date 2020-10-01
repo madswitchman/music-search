@@ -49,16 +49,16 @@ export class ArtistDetailsComponent implements OnInit {
           console.log(artistData);
         });
     }
-    if (this.data.searchParams === 'song') {
-      console.log(this.data.artistName);
-      this.loading = true;
-      this.searchService
-        .fetchSongDetails(this.data.artistName, this.data.songTitle)
-        .subscribe((artistData) => {
-          this.loading = false;
-          this.artistResults = artistData.track;
-          console.log(artistData);
-        });
-    }
+    // if (this.data.searchParams === 'song') {
+    //   console.log(this.data.artistName);
+    //   this.loading = true;
+    //   this.searchService
+    //     .fetchSongDetails(this.data.artistName, this.data.songTitle)
+    //     .subscribe((artistData) => {
+    //       this.loading = false;
+    //       this.artistResults = artistData.track;
+    //       console.log(artistData);
+    //     });
+    // }
   }
 }

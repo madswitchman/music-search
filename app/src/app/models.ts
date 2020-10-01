@@ -12,11 +12,13 @@ export interface ArtistData {
 }
 
 export interface TrackResponse {
-  tracks: TrackData[];
+  track: TrackData[];
 }
 
 export interface TrackData {
-  artistName: string;
-  albumCover: string;
-  songTitle: string;
+  strArtist: string;
+  strAlbum: string;
+  strGenre: string;
+  strStyle: string;
+  strMusicVid: string;
 }

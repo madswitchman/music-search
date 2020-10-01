@@ -75,6 +75,18 @@ First artist is most complete so bind to first occurence in array (artistResults
       (click)="openDialogBio(artistResult.strBiographyEN)"
       ><strong>Biography</strong></a
     >
+    <!-- TODO: Incorporate Top Tracks and push deezer artist ID to component -->
+    <!-- Add media player -->
+    <a
+      *ngIf="
+        artistResult.strBiographyEN != null &&
+        artistResult.strBiographyEN !== '' &&
+        i == 0
+      "
+      mat-raised-button
+      (click)="openDialogBio(artistResult.strBiographyEN)"
+      ><strong>Top 5</strong></a
+    >
   </ul>
   <ul>
     <li *ngIf="artistResults === null || artistResults?.length === 0">

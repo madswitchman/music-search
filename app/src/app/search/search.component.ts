@@ -5,7 +5,11 @@ import { SearchService } from './../services/search.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ArtistDetailsComponent } from '../artist-details/artist-details.component';
 import { TrackDetailsComponent } from './../track-details/track-details.component';
+import { ElementRef } from '@angular/core';
+import { ViewChild } from '@angular/core';
 
+//Model to catch API response
+//This is generic - Artist OR Track
 interface SearchDetails {
   data: any[];
 }
@@ -21,8 +25,10 @@ export class SearchComponent implements OnInit {
   searchForm: FormGroup;
   formSubmitted = false;
   panelOpenState = false;
-  hideMessage: boolean;
+  //hideMessage: boolean;
   loading: boolean;
+
+  @ViewChild('searchText') searchTextInput: ElementRef;
 
   inputField: FormControl = new FormControl('', [
     Validators.required,
@@ -31,6 +37,7 @@ export class SearchComponent implements OnInit {
   chooseParams: FormControl = new FormControl();
   searchResults = [];
   artistResults = [];
+  message: string;
 
   constructor(public searchService: SearchService, public dialog: MatDialog) {}
 
@@ -59,9 +66,11 @@ export class SearchComponent implements OnInit {
   onSearchChange(ob) {
     //TODO: Hide 'No Results' message when mat select is changed
     this.searchResults = [];
-    this.formSubmitted = false;
-    this.hideMessage = true;
-    console.log(this.hideMessage);
+    //this.hideMessage = true;
+    this.message = '';
+    //To maniuplate via ViewChild
+    //TODO - Clear searchText Input when creating new search
+    //this.searchTextInput.nativeElement.value = '';
   }
 
   getErrorMessage() {
@@ -82,7 +91,8 @@ export class SearchComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-
+    //Reset results message
+    this.message = '';
     if (
       this.chooseParams.value === 'song' &&
       this.inputField.valid &&
@@ -98,6 +108,9 @@ export class SearchComponent implements OnInit {
           this.loading = false;
           this.searchResults = data.data;
           this.formSubmitted = true;
+          if (this.searchResults.length == 0) {
+            this.message = 'No Results';
+          }
         });
     }
     if (
@@ -115,8 +128,12 @@ export class SearchComponent implements OnInit {
           this.loading = false;
           this.searchResults = data.data;
           this.formSubmitted = true;
+          if (this.searchResults.length == 0) {
+            this.message = 'No Results';
+          }
         });
     }
+    this.formSubmitted = false;
   }
 
   openURL(url) {

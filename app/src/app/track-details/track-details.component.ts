@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SearchService } from './../services/search.service';
 import { Track } from 'ngx-audio-player';
@@ -10,13 +10,13 @@ import { Track } from 'ngx-audio-player';
 })
 export class TrackDetailsComponent implements OnInit {
   inputField: string;
-  artistResults = [];
+  trackResults = [];
   loading: boolean;
-  msaapDisplayTitle = true;
-  msaapDisplayPlayList = true;
-  msaapPageSizeOptions = [2, 4, 6];
+  //Audio Player params
+  msaapDisplayTitle = false;
+  msaapDisplayPlayList = false;
   msaapDisplayVolumeControls = true;
-  msaapDisablePositionSlider = true;
+  msaapDisablePositionSlider = false;
 
   // Material Style Advance Audio Player Playlist
   msaapPlaylist: Track[] = [
@@ -37,25 +37,25 @@ export class TrackDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.data.searchParams === 'artist') {
-      this.loading = true;
-      this.searchService
-        .fetchArtistDetails(this.data.artist)
-        .subscribe((artistData) => {
-          this.loading = false;
-          this.artistResults = artistData.artists;
-          console.log(artistData);
-        });
-    }
+    // if (this.data.searchParams === 'artist') {
+    //   this.loading = true;
+    //   this.searchService
+    //     .fetchArtistDetails(this.data.artist)
+    //     .subscribe((artistData) => {
+    //       this.loading = false;
+    //       this.artistResults = artistData.artists;
+    //       console.log(artistData);
+    //     });
+    // }
     if (this.data.searchParams === 'song') {
       console.log(this.data.artistName);
       this.loading = true;
       this.searchService
         .fetchSongDetails(this.data.artistName, this.data.songTitle)
-        .subscribe((artistData) => {
+        .subscribe((trackData) => {
           this.loading = false;
-          this.artistResults = artistData.track;
-          console.log(artistData);
+          this.trackResults = trackData.track;
+          console.log(trackData);
         });
     }
   }

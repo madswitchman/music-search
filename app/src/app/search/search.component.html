@@ -1,4 +1,4 @@
-<div class="example-container">
+<div fxLayoutAlign="center center" class="example-container">
   <form class="my-form" #searchForm="ngForm" (ngSubmit)="onSubmit()">
     <mat-form-field
       class="search-text"
@@ -49,13 +49,6 @@
       Name can be max 40 characters long.
     </div>
   </form>
-  <!-- <mat-progress-spinner
-    *ngIf="this.loading == true"
-    mode="indeterminate"
-    diameter="80"
-    strokeWidth="10"
-    class="example-container"
-  ></mat-progress-spinner> -->
 </div>
 <div
   fxLayout.xs="column"
@@ -65,15 +58,16 @@
   ngClass.gt-xs="ml-10"
   *ngIf="searchForm.submitted"
 >
-  <div
+  <!-- TODO: Find way to tie 'No Results' message to empty response -->
+  <!-- <div
     [hidden]="
       searchResults.length != 0 && searchForm.submitted && searchForm.valid
     "
     class="example-container"
     id="fade-in"
-  >
-    <strong>No Results</strong>
-  </div>
+  > -->
+  <strong>{{ this.message }}</strong>
+  <!-- </div> -->
   <mat-card
     fxFlex.sm="0 1 calc(50%-10px)"
     fxFlex.md="0 1 calc(33%-10px)"
