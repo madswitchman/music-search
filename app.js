@@ -112,6 +112,33 @@ app.get("/searchSong", (req, res) => {
       })
   );
 });
+
+app.get("/artistTopTracks", (req, res) => {
+  let artistId = req.query.q;
+  let limit = "5";
+  //https://api.deezer.com/artist/13/top?limit=50
+
+  let artistSearchUrl =
+    "https://api.deezer.com/artist/" + artistId + "/top?limit=" + limit;
+  let settings = { method: "Get" };
+  const encodedURI = encodeURI(artistSearchUrl);
+
+  return (
+    fetch(encodedURI, settings)
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(encodedURI);
+        return res.send(json);
+      })
+      //Try to see if we can send the error to the client
+      //For Angular Modeling purposes
+      .catch((err) => {
+        console.error(err);
+        return res.send(err);
+      })
+  );
+});
+
 //Log to the console when the backend is up and running
 app.listen(port, (req, res) => {
   console.log(`Music Search backend listening at http://localhost:${port}`);
