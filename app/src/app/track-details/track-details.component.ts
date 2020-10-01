@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SearchService } from './../services/search.service';
 import { Track } from 'ngx-audio-player';
@@ -37,16 +37,6 @@ export class TrackDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // if (this.data.searchParams === 'artist') {
-    //   this.loading = true;
-    //   this.searchService
-    //     .fetchArtistDetails(this.data.artist)
-    //     .subscribe((artistData) => {
-    //       this.loading = false;
-    //       this.artistResults = artistData.artists;
-    //       console.log(artistData);
-    //     });
-    // }
     if (this.data.searchParams === 'song') {
       console.log(this.data.artistName);
       this.loading = true;
@@ -55,7 +45,7 @@ export class TrackDetailsComponent implements OnInit {
         .subscribe((trackData) => {
           this.loading = false;
           this.trackResults = trackData.track;
-          console.log(trackData);
+          //console.log(trackData);
         });
     }
   }

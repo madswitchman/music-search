@@ -34,6 +34,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ArtistBioComponent } from './artist-bio/artist-bio.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
+import { ArtistTopTracksComponent } from './artist-top-tracks/artist-top-tracks.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { NgxAudioPlayerModule } from 'ngx-audio-player';
     ArtistDetailsComponent,
     TrackDetailsComponent,
     ArtistBioComponent,
+    ArtistTopTracksComponent,
   ],
   imports: [
     BrowserModule,

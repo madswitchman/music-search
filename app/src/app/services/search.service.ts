@@ -79,6 +79,15 @@ export class SearchService {
       .get<TrackResponse>(this.API_ENDPOINT, opts)
       .pipe(catchError(this.errorHandler));
   }
+  public fetchArtistTopTracks(artistId: number): Observable<any> {
+    this.API_ENDPOINT = 'http://localhost:3000/artistTopTracks';
+    const opts = {
+      params: new HttpParams({ fromString: 'q=' + artistId }),
+    };
+    return this.httpClient
+      .get(this.API_ENDPOINT, opts)
+      .pipe(catchError(this.errorHandler));
+  }
   //Handle any HTTP errors - user sees dialog
   //NOTE: Won't return 'real' error codes while on localhost
   private errorHandler(error: HttpErrorResponse) {

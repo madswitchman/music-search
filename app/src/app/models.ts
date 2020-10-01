@@ -9,6 +9,7 @@ export interface ArtistData {
   strStyle: string;
   intFormedYear: number;
   strCountry: string;
+  strBiographyEN: string;
 }
 
 export interface TrackResponse {

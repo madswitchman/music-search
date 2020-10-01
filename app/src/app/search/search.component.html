@@ -58,16 +58,8 @@
   ngClass.gt-xs="ml-10"
   *ngIf="searchForm.submitted"
 >
-  <!-- TODO: Find way to tie 'No Results' message to empty response -->
-  <!-- <div
-    [hidden]="
-      searchResults.length != 0 && searchForm.submitted && searchForm.valid
-    "
-    class="example-container"
-    id="fade-in"
-  > -->
+  <!-- Error Message -->
   <strong>{{ this.message }}</strong>
-  <!-- </div> -->
   <mat-card
     fxFlex.sm="0 1 calc(50%-10px)"
     fxFlex.md="0 1 calc(33%-10px)"
@@ -98,7 +90,7 @@
         mat-icon-button
         color="primary"
         onclick="this.blur()"
-        (click)="openDialogArtist(searchResult.name, 'artist')"
+        (click)="openDialogArtist(searchResult.name, 'artist', searchResult.id)"
         disableRipple
       >
         <mat-icon>info</mat-icon>

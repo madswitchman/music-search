@@ -41,14 +41,15 @@ export class SearchComponent implements OnInit {
 
   constructor(public searchService: SearchService, public dialog: MatDialog) {}
 
-  openDialogArtist(artist, searchParams): void {
+  openDialogArtist(artist, searchParams, artistId): void {
     this.dialog.open(ArtistDetailsComponent, {
-      data: { artist, searchParams },
+      data: { artist, searchParams, artistId },
       autoFocus: false,
       maxWidth: '50%',
     });
     console.log(artist);
     console.log(searchParams);
+    console.log(artistId);
   }
 
   openDialogSong(songTitle, artistName, searchParams, previewLink): void {
@@ -105,13 +106,13 @@ export class SearchComponent implements OnInit {
         )
         .subscribe((data: SearchDetails) => {
           console.log(data);
-          this.loading = false;
           this.searchResults = data.data;
           this.formSubmitted = true;
           if (this.searchResults.length == 0) {
             this.message = 'No Results';
           }
         });
+      this.loading = false;
     }
     if (
       this.chooseParams.value === 'artist' &&
@@ -125,13 +126,13 @@ export class SearchComponent implements OnInit {
         )
         .subscribe((data: SearchDetails) => {
           console.log(data);
-          this.loading = false;
           this.searchResults = data.data;
           this.formSubmitted = true;
           if (this.searchResults.length == 0) {
             this.message = 'No Results';
           }
         });
+      this.loading = false;
     }
     this.formSubmitted = false;
   }

@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ArtistBioComponent } from './../artist-bio/artist-bio.component';
+import { ArtistTopTracksComponent } from './../artist-top-tracks/artist-top-tracks.component';
 import { SearchService } from './../services/search.service';
 
 @Component({
@@ -21,13 +22,23 @@ export class ArtistDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  openDialogBio(strBio): void {
+  openDialogBio(strBio: string): void {
     this.dialog.open(ArtistBioComponent, {
       data: { strBio },
       autoFocus: false,
       maxHeight: '70vh',
       maxWidth: '50vw',
     });
+  }
+
+  openDialogTopTracks(idArtist: number) {
+    this.dialog.open(ArtistTopTracksComponent, {
+      data: { idArtist },
+      autoFocus: false,
+      maxHeight: '78vh',
+      width: '50vw',
+    });
+    console.log(idArtist);
   }
 
   toggleEllipsis() {
@@ -46,19 +57,8 @@ export class ArtistDetailsComponent implements OnInit {
         .subscribe((artistData) => {
           this.loading = false;
           this.artistResults = artistData.artists;
-          console.log(artistData);
+          //console.log(artistData);
         });
     }
-    // if (this.data.searchParams === 'song') {
-    //   console.log(this.data.artistName);
-    //   this.loading = true;
-    //   this.searchService
-    //     .fetchSongDetails(this.data.artistName, this.data.songTitle)
-    //     .subscribe((artistData) => {
-    //       this.loading = false;
-    //       this.artistResults = artistData.track;
-    //       console.log(artistData);
-    //     });
-    // }
   }
 }
