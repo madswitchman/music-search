@@ -8,8 +8,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./artist-bio.component.scss'],
 })
 export class ArtistBioComponent implements OnInit {
-  loading: boolean;
-
   constructor(
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<ArtistBioComponent>,
@@ -18,6 +16,11 @@ export class ArtistBioComponent implements OnInit {
 
   onCloseClick(): void {
     this.dialogRef.close();
+  }
+
+  //Replace line breaks from API with break tags
+  formatBio() {
+    return this.data.strBio.replace(/\n/g, '<br />');
   }
 
   ngOnInit(): void {}

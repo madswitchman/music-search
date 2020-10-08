@@ -3,7 +3,7 @@
 -->
 <div>
   <h2>Biography</h2>
-  <p>{{ data.strBio }}</p>
+  <p [innerHTML]="formatBio()"></p>
   <button mat-raised-button color="warn" align="end" (click)="onCloseClick()">
     Close
   </button>

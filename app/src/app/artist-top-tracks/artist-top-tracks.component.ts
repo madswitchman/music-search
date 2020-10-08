@@ -10,17 +10,16 @@ import { Track } from 'ngx-audio-player';
   styleUrls: ['./artist-top-tracks.component.scss'],
 })
 export class ArtistTopTracksComponent implements OnInit {
-  loading: boolean;
+  isLoading: boolean;
   trackResults = [];
-  playlistResults = [];
+  message: string;
 
+  //ngx-audio-player params
   msaapDisplayTitle = true;
   msaapDisplayPlayList = true;
   msaapPageSizeOptions = [5];
   msaapDisplayVolumeControls = true;
   msaapDisablePositionSlider = true;
-
-  // Material Style Advance Audio Player Playlist
   msaapPlaylist: Track[] = [];
 
   constructor(
@@ -30,24 +29,37 @@ export class ArtistTopTracksComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  //Close Dialog Window
   onCloseClick(): void {
     this.dialogRef.close();
   }
 
   ngOnInit(): void {
-    this.loading = true;
+    this.isLoading = true;
     this.searchService
+      //Calls service to search TopTracks based on Artist ID
+      //Response Limit is defined in app.js
       .fetchArtistTopTracks(this.data.idArtist)
-      .subscribe((topTracks) => {
-        this.loading = false;
-        this.trackResults = topTracks.data;
-        for (let item in this.trackResults) {
-          this.msaapPlaylist.push({
-            title: this.trackResults[item].title,
-            link: this.trackResults[item].preview,
-          });
+      .subscribe(
+        (topTracks) => {
+          this.isLoading = false;
+          this.trackResults = topTracks.data;
+          if (this.trackResults.length == 0) {
+            this.message = 'No tracks found';
+          }
+          //Create an array so ngx-audio-player can recognize the playlist
+          for (let item in this.trackResults) {
+            this.msaapPlaylist.push({
+              title: this.trackResults[item].title,
+              link: this.trackResults[item].preview,
+            });
+          }
+        },
+        //close Dialog window on error
+        (error) => {
+          this.isLoading = false;
+          this.onCloseClick();
         }
-        //console.log(this.msaapPlaylist);
-      });
+      );
   }
 }

@@ -13,7 +13,7 @@ import { SearchService } from './../services/search.service';
 export class ArtistDetailsComponent implements OnInit {
   inputField: string;
   artistResults = [];
-  loading: boolean;
+  isLoading: boolean;
 
   constructor(
     public searchService: SearchService,
@@ -22,6 +22,9 @@ export class ArtistDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  //Opens Bio Dialog
+  //Bio is already available from fetchArtist Details
+  //so simply pass strBio to component
   openDialogBio(strBio: string): void {
     this.dialog.open(ArtistBioComponent, {
       data: { strBio },
@@ -31,6 +34,8 @@ export class ArtistDetailsComponent implements OnInit {
     });
   }
 
+  //Opens Top Tracks Dialog
+  //Passes Deezer API Artist Id
   openDialogTopTracks(idArtist: number) {
     this.dialog.open(ArtistTopTracksComponent, {
       data: { idArtist },
@@ -38,27 +43,28 @@ export class ArtistDetailsComponent implements OnInit {
       maxHeight: '78vh',
       width: '50vw',
     });
-    console.log(idArtist);
   }
 
-  toggleEllipsis() {
-    document.querySelector('#ellipsis-ex').classList.toggle('text-truncate');
-  }
-
+  //Close Dialog Window
   onCloseClick(): void {
     this.dialogRef.close();
   }
 
   ngOnInit(): void {
-    if (this.data.searchParams === 'artist') {
-      this.loading = true;
-      this.searchService
-        .fetchArtistDetails(this.data.artist)
-        .subscribe((artistData) => {
-          this.loading = false;
-          this.artistResults = artistData.artists;
-          //console.log(artistData);
-        });
-    }
+    this.isLoading = true;
+    //Calls service to search for Artist metadata
+    //Queries on artist name
+    this.searchService.fetchArtistDetails(this.data.artist).subscribe(
+      (artistData) => {
+        //response received - stop loading bar
+        this.isLoading = false;
+        this.artistResults = artistData.artists;
+      },
+      //close Dialog window on error
+      (error) => {
+        this.isLoading = false;
+        this.onCloseClick();
+      }
+    );
   }
 }

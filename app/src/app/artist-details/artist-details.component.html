@@ -1,17 +1,12 @@
-<!--Validation is done via ngIf
-Indexes are set in case API returns multiple records for single artist
-First artist is most complete so bind to first occurence in array (artistResults)
--->
 <mat-progress-spinner
-  *ngIf="this.loading == true"
+  *ngIf="this.isLoading == true"
   mode="indeterminate"
   diameter="80"
   strokeWidth="10"
 ></mat-progress-spinner>
 
-<div *ngIf="this.loading == false">
+<div *ngIf="this.isLoading == false">
   <h2>{{ data.artist }}</h2>
-  <!--TODO: Separate out Artists/Song into components-->
   <ul *ngFor="let artistResult of artistResults; let i = index">
     <li
       *ngIf="
@@ -75,8 +70,6 @@ First artist is most complete so bind to first occurence in array (artistResults
       (click)="openDialogBio(artistResult.strBiographyEN)"
       ><strong>Biography</strong></a
     >
-    <!-- TODO: Incorporate Top Tracks and push deezer artist ID to component -->
-    <!-- Add media player -->
     <a
       *ngIf="
         artistResult.strBiographyEN != null &&

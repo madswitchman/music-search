@@ -27,11 +27,11 @@ app.use(function (req, res, next) {
 //API Call for specific artist details
 app.get("/artistDetails", (req, res) => {
   let searchText = req.query.q;
-
   let artistSearchUrl =
-    "https://www.theaudiodb.com/api/v1/json/1/search.php?s=" + searchText;
+    "https://www.theaudiodb.com/api/v1/json/1/search.php?s=" +
+    encodeURIComponent(searchText);
   let settings = { method: "Get" };
-  const encodedURI = encodeURI(artistSearchUrl);
+  const encodedURI = artistSearchUrl;
 
   return fetch(encodedURI, settings)
     .then((res) => res.json())
@@ -48,11 +48,11 @@ app.get("/songDetails", (req, res) => {
 
   let artistSearchUrl =
     "https://www.theaudiodb.com/api/v1/json/1/searchtrack.php?s=" +
-    searchText +
+    encodeURIComponent(searchText) +
     "&t=" +
-    songTitle;
+    encodeURIComponent(songTitle).replace(/[!'()*]/g, escape);
   let settings = { method: "Get" };
-  const encodedURI = encodeURI(artistSearchUrl);
+  const encodedURI = artistSearchUrl;
 
   return fetch(encodedURI, settings)
     .then((res) => res.json())
@@ -62,15 +62,19 @@ app.get("/songDetails", (req, res) => {
     })
     .catch((err) => console.error(err));
 });
+
 //API Call for generic artist search
 app.get("/searchArtist", (req, res) => {
-  let searchText = encodeURI(req.query.q);
+  let searchText = req.query.q;
   let limit = "10";
 
   let artistSearchUrl =
-    "https://api.deezer.com/search/artist?q=" + searchText + "&limit=" + limit;
+    "https://api.deezer.com/search/artist?q=" +
+    encodeURIComponent(searchText).replace(/[!'()*]/g, escape) +
+    "&limit=" +
+    limit;
   let settings = { method: "Get" };
-  const encodedURI = encodeURI(artistSearchUrl);
+  const encodedURI = artistSearchUrl;
 
   return (
     fetch(encodedURI, settings)
@@ -83,19 +87,23 @@ app.get("/searchArtist", (req, res) => {
       //For Angular Modeling purposes
       .catch((err) => {
         console.error(err);
-        return res.send(err);
+        //return res.send(err);
       })
   );
 });
+
 //API Call for generic song/track search
 app.get("/searchSong", (req, res) => {
   let searchText = req.query.q;
   let limit = "10";
 
   let artistSearchUrl =
-    "https://api.deezer.com/search?q=track:'" + searchText + "'&limit=" + limit;
+    "https://api.deezer.com/search/track?q=" +
+    encodeURIComponent(searchText).replace(/[!'()*]/g, escape) +
+    "&limit=" +
+    limit;
   let settings = { method: "Get" };
-  const encodedURI = encodeURI(artistSearchUrl);
+  const encodedURI = artistSearchUrl;
 
   return (
     fetch(encodedURI, settings)
@@ -108,7 +116,7 @@ app.get("/searchSong", (req, res) => {
       //For Angular Modeling purposes
       .catch((err) => {
         console.error(err);
-        return res.send(err);
+        //return res.send(err);
       })
   );
 });
@@ -134,7 +142,7 @@ app.get("/artistTopTracks", (req, res) => {
       //For Angular Modeling purposes
       .catch((err) => {
         console.error(err);
-        return res.send(err);
+        //return res.send(err);
       })
   );
 });

@@ -11,14 +11,15 @@ import { Track } from 'ngx-audio-player';
 export class TrackDetailsComponent implements OnInit {
   inputField: string;
   trackResults = [];
-  loading: boolean;
-  //Audio Player params
+  isLoading: boolean;
+
+  //ngx-audio-player params
   msaapDisplayTitle = false;
   msaapDisplayPlayList = false;
   msaapDisplayVolumeControls = true;
   msaapDisablePositionSlider = false;
 
-  // Material Style Advance Audio Player Playlist
+  //Define playlist so it is recognizable to ngx-audio-player
   msaapPlaylist: Track[] = [
     {
       title: this.data.songTitle,
@@ -32,21 +33,28 @@ export class TrackDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  //Close Dialog Window
   onCloseClick(): void {
     this.dialogRef.close();
   }
 
   ngOnInit(): void {
-    if (this.data.searchParams === 'song') {
-      console.log(this.data.artistName);
-      this.loading = true;
-      this.searchService
-        .fetchSongDetails(this.data.artistName, this.data.songTitle)
-        .subscribe((trackData) => {
-          this.loading = false;
+    this.isLoading = true;
+    //Calls service to search for Song metadata
+    //Queries on artist name and song title
+    this.searchService
+      .fetchSongDetails(this.data.artistName, this.data.songTitle)
+      .subscribe(
+        (trackData) => {
+          //response received - stop loading bar
+          this.isLoading = false;
           this.trackResults = trackData.track;
-          //console.log(trackData);
-        });
-    }
+        },
+        //close Dialog window on error
+        (error) => {
+          this.isLoading = false;
+          this.onCloseClick();
+        }
+      );
   }
 }

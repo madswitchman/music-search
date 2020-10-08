@@ -1,3 +1,6 @@
+// These are the models to type check the
+// data received from the API
+
 export interface ArtistResponse {
   artists: ArtistData[];
 }

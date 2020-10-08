@@ -43,7 +43,7 @@
     </button>
     <mat-progress-bar
       mode="indeterminate"
-      *ngIf="this.loading == true"
+      *ngIf="this.isLoading == true"
     ></mat-progress-bar>
     <div *ngIf="inputField.errors?.maxlength" class="error">
       Name can be max 40 characters long.
@@ -92,6 +92,7 @@
         onclick="this.blur()"
         (click)="openDialogArtist(searchResult.name, 'artist', searchResult.id)"
         disableRipple
+        matTooltip="More Info"
       >
         <mat-icon>info</mat-icon>
       </button>
@@ -104,6 +105,7 @@
           openDialogSong(
             searchResult.title,
             searchResult.artist.name,
+            searchResult.album.title,
             'song',
             searchResult.preview
           )

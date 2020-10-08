@@ -12,6 +12,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SearchComponent } from './search/search.component';
 import { ArtistDetailsComponent } from './artist-details/artist-details.component';
 import { TrackDetailsComponent } from './track-details/track-details.component';
+import { ArtistTopTracksComponent } from './artist-top-tracks/artist-top-tracks.component';
 
 //Services
 import { SearchService } from './services/search.service';
@@ -34,7 +35,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ArtistBioComponent } from './artist-bio/artist-bio.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
-import { ArtistTopTracksComponent } from './artist-top-tracks/artist-top-tracks.component';
 
 @NgModule({
   declarations: [

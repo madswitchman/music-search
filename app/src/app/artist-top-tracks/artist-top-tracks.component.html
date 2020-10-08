@@ -1,15 +1,17 @@
 <!--Bio data is passed via artist-details component
   and injected via openDialogBio()
 -->
-<mat-progress-spinner
-  *ngIf="this.loading == true"
+<mat-progress-bar
+  *ngIf="this.isLoading == true"
   mode="indeterminate"
   diameter="80"
   strokeWidth="10"
-></mat-progress-spinner>
-<div *ngIf="this.loading == false">
+></mat-progress-bar>
+<div *ngIf="this.isLoading == false">
   <h2>Top 5 Tracks</h2>
+  <p>{{ this.message }}</p>
   <ngx-audio-player
+    *ngIf="this.trackResults.length > 0"
     class="onHover"
     [playlist]="msaapPlaylist"
     [displayTitle]="msaapDisplayTitle"

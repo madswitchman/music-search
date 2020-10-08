@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
-import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { SearchService } from './../services/search.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ArtistDetailsComponent } from '../artist-details/artist-details.component';
 import { TrackDetailsComponent } from './../track-details/track-details.component';
-import { ElementRef } from '@angular/core';
-import { ViewChild } from '@angular/core';
 
 //Model to catch API response
 //This is generic - Artist OR Track
@@ -20,60 +17,61 @@ interface SearchDetails {
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
-  radius: 300;
-  color: 'lightgray';
-  searchForm: FormGroup;
   formSubmitted = false;
-  panelOpenState = false;
-  //hideMessage: boolean;
-  loading: boolean;
-
-  @ViewChild('searchText') searchTextInput: ElementRef;
+  isLoading: boolean;
+  chooseParams: FormControl = new FormControl();
+  searchResults = [];
+  message: string;
 
   inputField: FormControl = new FormControl('', [
     Validators.required,
     Validators.maxLength(40),
   ]);
-  chooseParams: FormControl = new FormControl();
-  searchResults = [];
-  artistResults = [];
-  message: string;
 
   constructor(public searchService: SearchService, public dialog: MatDialog) {}
 
-  openDialogArtist(artist, searchParams, artistId): void {
+  //Opens Track Details dialog and passes data for rendering
+  //artist - artist name
+  //searchParams - Artist or Song
+  //previewLink - URL to Song Clip
+  //artistId - Id from Deezer API
+  openDialogArtist(
+    artist: string,
+    searchParams: string,
+    artistId: number
+  ): void {
     this.dialog.open(ArtistDetailsComponent, {
       data: { artist, searchParams, artistId },
       autoFocus: false,
       maxWidth: '50%',
     });
-    console.log(artist);
-    console.log(searchParams);
-    console.log(artistId);
   }
 
-  openDialogSong(songTitle, artistName, searchParams, previewLink): void {
+  //Opens Track Details dialog and passes data for rendering
+  //searchParams - Artist or Song
+  //previewLink - URL to Song Clip
+  openDialogSong(
+    songTitle: string,
+    artistName: string,
+    albumName: string,
+    searchParams: string,
+    previewLink: string
+  ): void {
     this.dialog.open(TrackDetailsComponent, {
-      data: { songTitle, artistName, searchParams, previewLink },
+      data: { songTitle, artistName, albumName, searchParams, previewLink },
       autoFocus: false,
       maxWidth: '50%',
     });
-    console.log(songTitle);
-    console.log(artistName);
-    console.log(searchParams);
-    console.log(previewLink);
   }
 
-  onSearchChange(ob) {
-    //TODO: Hide 'No Results' message when mat select is changed
+  onSearchChange($event): void {
+    //Empty model to clear state (clears search result cards)
     this.searchResults = [];
-    //this.hideMessage = true;
+    //Clear any feedback messages
     this.message = '';
-    //To maniuplate via ViewChild
-    //TODO - Clear searchText Input when creating new search
-    //this.searchTextInput.nativeElement.value = '';
   }
 
+  //Custom validation method for search form
   getErrorMessage() {
     if (this.inputField.hasError('required')) {
       return 'You must enter a value';
@@ -83,61 +81,39 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  //Clean up search input to prevent errors
-  sanitizeString(str) {
-    str = str.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-    return str.trim();
-    // return (str = encodeURI(str));
-  }
-
-  onSubmit() {
-    this.loading = true;
+  onSubmit(): void {
+    this.isLoading = true;
     //Reset results message
     this.message = '';
-    if (
-      this.chooseParams.value === 'song' &&
-      this.inputField.valid &&
-      this.chooseParams.valid
-    ) {
+    if (this.inputField.valid && this.chooseParams.valid) {
+      //Calls service to search for generic Artist/Track
+      //chooseParams.value indicates artist or song
       this.searchService
         .fetchData(
-          this.sanitizeString(this.inputField.value),
+          //this.sanitizeString(this.inputField.value),
+          this.inputField.value,
           this.chooseParams.value
         )
-        .subscribe((data: SearchDetails) => {
-          console.log(data);
-          this.searchResults = data.data;
-          this.formSubmitted = true;
-          if (this.searchResults.length == 0) {
-            this.message = 'No Results';
+        .subscribe(
+          (data: SearchDetails) => {
+            this.searchResults = data.data;
+            this.formSubmitted = true;
+            if (this.searchResults.length == 0) {
+              this.message = 'No Results';
+            }
+            //response received - stop loading bar
+            this.isLoading = false;
+          },
+          //stop loading bar if error occurs
+          (error) => {
+            this.isLoading = false;
           }
-        });
-      this.loading = false;
-    }
-    if (
-      this.chooseParams.value === 'artist' &&
-      this.inputField.valid &&
-      this.chooseParams.valid
-    ) {
-      this.searchService
-        .fetchData(
-          this.sanitizeString(this.inputField.value),
-          this.chooseParams.value
-        )
-        .subscribe((data: SearchDetails) => {
-          console.log(data);
-          this.searchResults = data.data;
-          this.formSubmitted = true;
-          if (this.searchResults.length == 0) {
-            this.message = 'No Results';
-          }
-        });
-      this.loading = false;
+        );
     }
     this.formSubmitted = false;
   }
-
-  openURL(url) {
+  //Method to open external links
+  openURL(url): void {
     window.open(url, '_blank');
   }
 
